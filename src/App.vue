@@ -3,16 +3,31 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/search">search</router-link>
   </div> -->
+  <Menu />
   <router-view />
 </template>
 
+<script>
+// import moduleName from './components/'
+import Menu from "./components/Menu";
+export default {
+  components: {
+    // Header,
+    Menu,
+  },
+};
+</script>
+
 <style>
+body {
+  background-color: black !important;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
 }
 
 #nav {

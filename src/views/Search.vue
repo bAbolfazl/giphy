@@ -1,23 +1,17 @@
 <template>
-  <div class="search">
-    <h1>This is an search page</h1>
-    <div>{{ search }}</div>
+  <div class="search container">
+    <SearchBox />
+    <SearchList />
   </div>
 </template>
 
 <script>
+import SearchList from "../components/SearchList";
+import SearchBox from "../components/SearchBox";
+
 export default {
-  data() {
-    return {
-      search: this.$route.params.word,
-
-      searchResult: [],
-    };
-  },
-
-  created(){
-    
-  }
+  name: "Search",
+  components: { SearchList, SearchBox },
 
   // methods: {
 

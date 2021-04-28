@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Search from "../views/Search.vue";
+import Single from "../views/Single.vue";
 
 const routes = [
   {
@@ -9,12 +10,14 @@ const routes = [
     component: Home,
   },
   {
-    path: "/search/:word",
+    path: "/search/:word?",
     name: "Search",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: Search,
+  },
+  {
+    path: "/single/:id",
+    name: "Single",
+    component: Single,
   },
 ];
 

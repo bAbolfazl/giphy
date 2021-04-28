@@ -21,3 +21,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.home {
+  margin: 0 200px;
+}
+</style>
