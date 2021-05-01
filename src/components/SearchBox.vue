@@ -1,17 +1,38 @@
 <template>
-  <div class="d-flex position-relative my-4" ref="search">
-    <button
-      @click="handleSearch"
-      class="btn search-btn d-flex align-items-center h-100"
-    >
-      <img src="../assets/search.svg" alt="" />
-    </button>
-    <input
-      v-model="searchField"
-      type="search"
-      placeholder="search..."
-      class="form-control bg-white w-100"
-    />
+  <div class="position-relative container" style="z-index: 1">
+    <div class="d-flex position-relative my-4" ref="search">
+      <button
+        @click="handleSearch"
+        class="btn search-btn d-flex align-items-center h-100"
+      >
+        <img src="../assets/search.svg" alt="" />
+      </button>
+      <input
+        v-model="searchField"
+        @blur="onInputBlur"
+        type="search"
+        placeholder="search..."
+        class="form-control bg-white w-100"
+      />
+    </div>
+    <div v-if="showSug" class="suggestion bg-white w-100 text-left">
+      <button @click="onCloseSug" class="close-sug btn btn-danger">
+        close
+      </button>
+      <ul>
+        <li v-if="!sugList.length" class="p-2 text-muted">No results</li>
+        <li
+          v-else
+          v-for="{ title, id, slug } in sugList"
+          :key="id"
+          class="p-2 border-bottom"
+        >
+          <router-link :to="{ name: 'Single', params: { id } }">
+            {{ title }}
+          </router-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -20,14 +41,34 @@ export default {
   name: "SearchBox",
   data() {
     return {
+      showSug: false,
       searchField: "",
       headerIsExtended: false,
+      sugList: [],
     };
+  },
+  watch: {
+    searchField(val) {
+      if (val.length < 4) return;
+      fetch(
+        `https://api.giphy.com/v1/gifs/search?api_key=j8IJGL2jKygtWSHAmqE5Ji6JGe6BtgqU&q=${val}&limit=6`
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          this.sugList = res.data;
+          this.showSug = true;
+        });
+      console.log("this.sugList", this.sugList);
+    },
   },
   methods: {
     handleSearch() {
       // this.$router.push({ name: "Search", params: { word: "asdf" } });
       this.$router.push({ name: "Search", params: { word: this.searchField } });
+    },
+    onCloseSug() {
+      this.showSug = false;
+      this.sugList = [];
     },
     // handleScroll: function() {
     //   //   const bodyHeight = document.body.scrollHeight;
@@ -65,5 +106,17 @@ export default {
   position: absolute;
   right: 0;
   top: 0;
+}
+.suggestion {
+  /* height: 50px; */
+  position: absolute;
+  top: 100%;
+  color: black;
+}
+.close-sug {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 0.7em;
 }
 </style>

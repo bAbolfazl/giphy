@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style scoped>
-.home {
+/* .home {
   margin: 0 200px;
-}
+} */
 </style>

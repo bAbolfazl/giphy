@@ -1,6 +1,12 @@
 <template>
   <div class="container">
-    <CardsList :data="trendingData" />
+    <Loading v-if="isLoading" />
+    <template v-else>
+      <CardsList :data="trendingData" />
+      <div class="w-100 text-center my-4">
+        <button @click="onClick" class="btn btn-info">Update</button>
+      </div>
+    </template>
     <!-- <div
       v-for="{ id, images } in trendingData"
       :key="id"
@@ -33,24 +39,47 @@
 
 <script>
 import CardsList from "../components/CardsList";
+import Loading from "../components/Loading";
 
 export default {
   name: "Trendings",
-  components: { CardsList },
+  components: { CardsList, Loading },
   data() {
     return {
+      isLoading: false,
+      page: 1,
       trendingData: Array,
       fav: JSON.parse(localStorage.getItem("fav")) || [],
     };
   },
-
+  methods: {
+    onClick() {
+      ++this.page;
+      this.isLoading = true;
+      fetch(
+        `https://api.giphy.com/v1/gifs/trending?api_key=j8IJGL2jKygtWSHAmqE5Ji6JGe6BtgqU&limit=18&offset=${this
+          .page * 18}`
+      )
+        .then((res) => res.json())
+        // .then(console.log)
+        .then((res) => {
+          this.trendingData.push(...res.data);
+          this.isLoading = false;
+        });
+    },
+  },
   created() {
     // console.log("process.env", process.env);
+    this.isLoading = true;
+
     fetch(
-      "https://api.giphy.com/v1/gifs/trending?api_key=j8IJGL2jKygtWSHAmqE5Ji6JGe6BtgqU&limit=18"
+      `https://api.giphy.com/v1/gifs/trending?api_key=j8IJGL2jKygtWSHAmqE5Ji6JGe6BtgqU&limit=18`
     )
       .then((res) => res.json())
-      .then((res) => (this.trendingData = res.data));
+      .then((res) => {
+        this.trendingData = res.data;
+        this.isLoading = false;
+      });
   },
 };
 </script>

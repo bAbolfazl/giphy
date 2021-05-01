@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     fetchSearched: function() {
+      if (!this.search) return;
       // this.searchResult = "";
       // alert("hi");
       this.is_loading = true;

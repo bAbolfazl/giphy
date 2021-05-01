@@ -38,7 +38,7 @@ export default {
   },
   created() {
     console.log("this.data", this.data);
-    alert("created");
+    // alert("created");
   },
   methods: {
     // handleClick: function(id) {},
@@ -76,6 +76,8 @@ export default {
   object-fit: cover;
   width: 100%;
   height: 100%;
+  background-color: gray;
+  border-radius: 5px;
 }
 .overlay {
   background-color: rgba(0, 0, 0, 0.5);

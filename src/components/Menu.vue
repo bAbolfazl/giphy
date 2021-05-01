@@ -20,11 +20,11 @@ export default {
           title: "home",
           src: "/",
         },
-        {
-          id: 2,
-          title: "search",
-          src: "/search",
-        },
+        // {
+        //   id: 2,
+        //   title: "search",
+        //   src: "/search",
+        // },
       ],
     };
   },
